@@ -1,0 +1,4 @@
+1. Finish the component
+2. Integrate Props to make it dynamic
+3. create an arrays data minimum 4
+4. map that data with the component

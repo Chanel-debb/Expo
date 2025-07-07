@@ -1,61 +1,59 @@
-import { View, Text,TextInput, Image, ScrollView, Pressable } from "react-native";
+import { View, Text,TextInput, Image, ScrollView, FlatList, Pressable, ActivityIndicator } from "react-native";
 import { useState, useEffect } from "react";
-import StatCard from "../../components/statcard";
-import UserCard from "../../components/usercard";
+import { useProductStore } from "../../store/productStore";
+
 // import "../../global.css";
 // import axios from "axios";
 
 // const response = await axios.get("https://dummyjson.com/products");
 // console.log(response.data);
 const Profile = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [loading, setLoading] = useState(false);
 
-  const formData={
-    username: username, 
-    password: password
-  }
-  const handleSubmit = async() => {
-    try{
-      const response = await fetch("https://dummyjson.com/auth/login", {
-        method:"POST",
-        body: JSON.stringify(formData),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      if (!response.ok) {
-        throw new Error("Login failed try again later");
-      }
-      const data = await response.json();
-      console.log(data)
+  // const formData={
+  //   username: username, 
+  //   password: password
+  // }
+  // const handleSubmit = async() => {
+  //   setLoading(true);
+  //   try{
+  //     const response = await fetch("https://dummyjson.com/auth/login", {
+  //       method:"POST",
+  //       body: JSON.stringify(formData),
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       }
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error("Login failed try again later");
+  //     }
+  //     const data = await response.json();
+  //     console.log(data)
 
-    }catch(error) {
-      console.error("Error submitting form:", error);
-    }finally{
-      console.log("Form submitted successfully:", formData);
-    }
-  }
+  //   }catch(error) {
+  //     console.error("Error submitting form:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
   
-//   const [products, setProducts] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const fetchProducts = async () => {
-//     try {
-//       const response = await fetch("https://dummyjson.com/products");
-//       const data = await response.json();
+  // const [products, setProducts] = useState([]);
+  const { products, setProducts } = useProductStore();
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState(null);
 
-//       // console.log(data.products);
-//       setProducts(data.products);
-//     } catch (error) {
-//       setError(error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-//   useEffect(() => {
-//     fetchProducts();
-//   }, []);
+  // const onRefesh = () => {
+  //   setRefreshing(true);
+  //   fetchProducts();
+  //   setRefreshing(false);
+  // }
+  
+  useEffect(() => {
+    setProducts();
+  }, []);
 
   //   const data = [
   //     {
@@ -112,11 +110,15 @@ const Profile = () => {
 
   //   // const el1 = data[0]
   return (
-    <ScrollView>
+    <View>
       <View className=" p-4">
         <Text style={{ fontSize: 35, marginTop: 66, marginBottom: 12 }}>
           Profile
         </Text>
+
+      
+        
+       
 
         {/* <StatCard
           title="John Doe"
@@ -145,17 +147,56 @@ const Profile = () => {
               progress={element.progress}
             />
           ))} */}
-        {/* </View> */}
-        {/* <View>
-          {products.map((element, index) => (
-            <View className="">
+      </View>
+      <View>
+        {/* {products.map((element, index) => (
+            <View className="" key={index}>
+              <Image 
+                source={{ uri: element.thumbnail}}
+                alt="image"
+                className="w-full h-64 rounded-lg mb-2" 
+              
+              />
               <Text className="text-2xl font-semibold">{element.title}</Text>
               <Text className="font-light text-md ">{element.description}</Text>
               <Text className="font-bold p-1 text-md ">{element.price}</Text>
             </View>
-          ))}
-        </View>*/}
-        <View className="p-4">
+          ))} */}
+
+        {/* 
+          
+          const name = "Deborah"
+          const lower = name.toLowerCase()
+          deborah
+          toLowercase() */}
+
+        {/* 
+            const age = Number(item.age)
+            1,
+            "1"
+          
+          */}
+
+        <FlatList
+          data={products}
+          // refreshing={loading}
+          // onRefresh={onRefesh}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View className="">
+              <Image
+                source={{ uri: item.thumbnail }}
+                alt="image"
+                className="w-full h-64 rounded-lg mb-2"
+              />
+              <Text className="text-2xl font-semibold">{item.title}</Text>
+              <Text className="font-light text-md ">{item.description}</Text>
+              <Text className="font-bold p-1 text-md ">{item.price}</Text>
+            </View>
+          )}
+        />
+      </View>
+      {/* <View className="p-4">
           <View>
             <Text>Login </Text>
             <Text>Welcome back</Text>
@@ -177,12 +218,11 @@ const Profile = () => {
               className="py-4 px-3 border border-gray-200"
             />
             <Pressable className="py-2 px-8 border border-blue-100 bg-blue-900 mt-2 rounded-lg" onPress={handleSubmit}>
-              <Text>SUBMIT</Text>
+              {loading ? <ActivityIndicator size="small" color="#fff" /> : <Text className="text-white text-center">Submit</Text>}
             </Pressable>
-          </View>
-        </View>
-      </View>
-    </ScrollView>
+          </View> 
+       </View> */}
+    </View>
   );
 };
 

@@ -1,7 +1,9 @@
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import "../../global.css"
+import { useRouter } from "expo-router";
 
 const Home = () => {
+  const router = useRouter();
     return (
       <View style={styles.container}>
         <Text style={styles.signinText}>Sign In</Text>
@@ -23,6 +25,10 @@ const Home = () => {
 
         <Pressable onPress={() => alert("Button Pressed!")}>
           <Text style={styles.text}>Sign in</Text>
+        </Pressable>
+
+        <Pressable onPress={() => router.push("/")}>
+          <Text style={styles.text}>Go home</Text>
         </Pressable>
       </View>
     );

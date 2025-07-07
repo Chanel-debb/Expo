@@ -29,6 +29,13 @@ export default function TabLayout() {
             tabBarIcon: () => <FontAwesome name="cog" />,
           }}
         />
+        <Tabs.Screen
+          name="coin"
+          options={{
+            title: "coin",
+            tabBarIcon: () => <FontAwesome name="btc" />,
+          }}
+        />
       </Tabs>
     );
 }

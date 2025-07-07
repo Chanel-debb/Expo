@@ -2,3 +2,12 @@
 2. Integrate Props to make it dynamic
 3. create an arrays data minimum 4
 4. map that data with the component
+
+
+
+Assignment 2
+1. Create a blog card component
+2. Create services and store for the blog
+3. Create services and store for users
+4. On the coin page, make sure you're getting your user data from the store
+5. On the settings page, get blog data from the store and map through it. 
